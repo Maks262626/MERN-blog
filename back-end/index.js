@@ -31,9 +31,15 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 
-
+// app.use(cors());
+app.use(
+    cors({
+        origin: "https://stalwart-wisp-9caa9b.netlify.app",
+        credentials: true,
+    })
+);
+app.options("*", cors());
 app.use(express.json());
-app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
 app.post('/auth/register',registerValidator,handleValidationErrors, UserController.register);
