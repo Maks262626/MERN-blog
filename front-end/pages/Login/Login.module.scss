@@ -1,0 +1,29 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    &__inner {
+        box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.75);
+        padding: 45px 25px;
+        border-radius: 10px;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.title {
+    color: var(--accent);
+    font-size: 44px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.error{
+    color: red;
+}
