@@ -26,8 +26,17 @@ mongoose
 
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const storage = multer.memoryStorage();
+// const storage = multer.diskStorage({
+//     destination: (_, __, cb) => {
+//         cb(null, 'uploads');
+//     },
+//     filename: (_, file, cb) => {
+//         console.log("file.originalname", file.originalname);
+//         cb(null, file.originalname);
+//     }
+// });
 const upload = multer({ storage });
 
 
@@ -38,6 +47,8 @@ app.use(
         credentials: true,
     })
 );
+
+
 app.options("*", cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));

@@ -7,6 +7,7 @@ import Users from "../../components/Users/Users";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchArticles, fetchTags } from "../../redux/articles";
 import instance from "../../axios";
+import { Link } from "react-router-dom";
 function Home() {
     const dispatch = useDispatch();
     const { articles,tags } = useSelector((state) => state.article);
@@ -42,6 +43,12 @@ function Home() {
                     </div>
                     <div className={s.sidebar}>
                         <div className={s.sidebarWidget}>
+                            <Link
+                                className={`btn`}
+                                to="/info"
+                            >
+                                Try New Function
+                            </Link>
                             <Users users={lastUsers} />
                             <Tags title="Top Categories" tags={tags} />
                         </div>

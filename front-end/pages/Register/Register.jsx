@@ -11,26 +11,22 @@ function Register() {
     const dispatch = useDispatch();
     const isAuth = useSelector(isAuthSelector);
     const inputRef = useRef(null);
-    const [imageFile, setImageFile] = useState("");
-    const avatarUrl = imageFile.name
-        ? `/uploads/${imageFile.name}`
-        : "https://placehold.co/50x50";
-    // const handleImage = async (e) => {
-    //     try {
-    //         const formatData = new FormData();
-    //         const file = e.target.files[0];
-    //         formatData.append("image", file);
-    //         await instance.post("/upload", formatData);
-    //         dispatch(fetchAvatar(file));
-    //     } catch (err) {
-    //         console.warn(err);
-    //         alert("failed to load img");
-    //     } 
-    // };
-    const handleImage = (e) => {
-        const file = e.target.files[0];
-        setImageFile(file);
-    }
+    const [imageFile, setImageFile] = useState(null);
+    const [imageUrl, setImageUrl] = useState("");
+    const avatarUrl = imageUrl ? imageUrl : "https://placehold.co/50x50";
+    const handleImage = async (e) => {
+        try {
+            const formatData = new FormData();
+            const file = e.target.files[0];
+            setImageFile(file);
+            formatData.append("image", file);
+            const { data } = await instance.post("/upload", formatData);
+            setImageUrl(data.data.image);
+        } catch (err) {
+            console.warn(err);
+            alert("failed to load img");
+        } 
+    };
     if (isAuth) {
         return <Navigate to="/" />;
     }
@@ -57,7 +53,7 @@ function Register() {
                     await instance.post("/upload", formatData);
                 }
                 
-                const registerData = { ...values, avatarUrl:imageFile.name }; 
+                const registerData = { ...values, avatarUrl: imageUrl }; 
                 
                 const data = await dispatch(fetchRegister(registerData));
                 console.log(data);

@@ -14,6 +14,7 @@ import PostsByTag from "../pages/PostsByTag/PostsByTag";
 import User from "../pages/User/User";
 import { fetchArticles } from "../redux/articles";
 import Likes from "../pages/Likes/Likes";
+import RickRoll from "../pages/RickRoll/RickRoll";
 
 function App() {
     const dispatch = useDispatch();
@@ -35,6 +36,7 @@ function App() {
                     <Route path="/tags/:id" element={<PostsByTag />} />
                     <Route path="/user" element={<User />} />
                     <Route path="/likes" element={<Likes />} />
+                    <Route path="/info" element={<RickRoll/>} />
                 </Routes>
             </main>
         </>

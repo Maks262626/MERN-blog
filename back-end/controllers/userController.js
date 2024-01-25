@@ -10,7 +10,7 @@ export const register = async (req, res) => {
         const password = req.body.password;
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-        const avatarUrl = req.body.avatarUrl ? `/uploads/${req.body.avatarUrl}` : "";
+        const avatarUrl = req.body.avatarUrl ? req.body.avatarUrl : "";
         const doc = new UserModel({
             fullname: req.body.fullname,
             email: req.body.email,
