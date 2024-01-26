@@ -8,19 +8,15 @@ function Users({ users }) {
                 {users.map((user, index) => {
                     return (
                         <div className={s.user} key={index}>
-                            {user.avatarUrl ? (
-                                <img
-                                    className={s.avatar}
-                                    src={`${user.avatarUrl}`}
-                                    alt=""
-                                />
-                            ) : (
-                                <img
-                                    className={s.avatar}
-                                    src={"https://placehold.co/50x50"}
-                                    alt=""
-                                />
-                            )}
+                            <img
+                                className={s.avatar}
+                                src={
+                                    user.avatarUrl
+                                        ? `${user.avatarUrl}`
+                                        : "https://placehold.co/50x50"
+                                }
+                                alt="avatar"
+                            />
                             <span>{user.fullname}</span>
                         </div>
                     );

@@ -17,8 +17,10 @@ export const register = async (req, res) => {
             avatarUrl,
             passwordHash: hashedPassword,
         });
-        console.log(req.body)
+        console.log("req.body",req.body)
         const user = await doc.save();
+        console.log("user save", user);
+
         const token = jwt.sign(
             {
                 _id: user._id,
@@ -29,6 +31,7 @@ export const register = async (req, res) => {
             }
         );
         const { passwordHash, ...userData } = user._doc;
+        console.log("user data", userData);
         return res.json({
             ...userData,
             token,
