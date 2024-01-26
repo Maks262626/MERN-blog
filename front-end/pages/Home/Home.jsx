@@ -15,7 +15,7 @@ function Home() {
     useEffect(() => {
         dispatch(fetchArticles());
         dispatch(fetchTags());
-        instance.get("/last-users").then(res => {
+        instance.get("/last-users/4").then(res => {
             setLastUsers(res.data);
         });
     },[]);

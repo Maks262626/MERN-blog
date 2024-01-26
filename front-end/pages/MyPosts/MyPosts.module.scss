@@ -9,11 +9,21 @@
 .articleWrapper{
     position: relative;
 } 
-.delete{
+.actions{
+    display: flex;
     position: absolute;
     top: 0;
     right: 0;
+
+}
+.delete{
     &:hover{
         color: red;
+    }
+}
+.edit {
+    font-size: 10px;
+    &:hover {
+        color: blue;
     }
 }

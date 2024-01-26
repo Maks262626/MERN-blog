@@ -1,9 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { validationResult } from "express-validator";
 import UserModel from "../models/User.js";
-import { json } from "express";
-import User from "../models/User.js";
 
 export const register = async (req, res) => {
     try {
@@ -17,9 +14,7 @@ export const register = async (req, res) => {
             avatarUrl,
             passwordHash: hashedPassword,
         });
-        console.log("req.body",req.body)
         const user = await doc.save();
-        console.log("user save", user);
 
         const token = jwt.sign(
             {
@@ -31,7 +26,6 @@ export const register = async (req, res) => {
             }
         );
         const { passwordHash, ...userData } = user._doc;
-        console.log("user data", userData);
         return res.json({
             ...userData,
             token,
@@ -102,9 +96,10 @@ export const getMe = async (req, res) => {
 };
 export const getLastUsers = async (req, res) => {
     try {
+        const usersCount = req.params.id;
         const users = await UserModel.find()
             .sort({ createdAt: -1 })
-            .limit(3)
+            .limit(usersCount)
             .select("fullname avatarUrl");
         return res.json(users);
     } catch (err) {

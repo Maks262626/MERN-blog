@@ -2,59 +2,90 @@ import s from "./AddPost.module.scss";
 import Select from "react-select";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { isAuthSelector } from "../../redux/auth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { isAuthSelector, userSelector } from "../../redux/auth";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import instance from "../../axios";
+import Preloader from "../../components/Preloader/Preloader";
 function AddPost() {
     const isAuth = useSelector(isAuthSelector);
+    const user = useSelector(userSelector);
     const [selectedTags, setSelectedTags] = useState([]);
     const [value, setValue] = useState("");
     const [imageUrl, setImageUrl] = useState("");
     const [title, setTitle] = useState("");
-    const { tags } = useSelector(state => state.article);
+    const [loading, setIsLoading] = useState(true);
+    const { tags } = useSelector((state) => state.article);
     const navigate = useNavigate();
+    const { id } = useParams();
+    const isEditing = Boolean(id);
     const inputRef = useRef();
+    useEffect(() => {
+        if (isEditing) {
+            instance.get(`/posts/${id}`).then((data) => {
+                const tags = data.data.tags.map((tag) => {
+                    return { value: tag.name, label: tag.name, id: tag._id };
+                });
+                setSelectedTags(tags);
+                setValue(data.data.text);
+                setImageUrl(data.data.imageUrl);
+                setTitle(data.data.title);
+            });
+        }
+    }, [id, isEditing]);
+    useEffect(() => {
+        if (user) {
+            console.log(user);
+            setIsLoading(true);
+            instance.get(`/posts/${id}`).then((data) => {
+                const articleUserId = data.data.user._id;
+                if (articleUserId !== user._id) {
+                    console.log(1);
+                    navigate("/");
+                } else {
+                    console.log(2);
+                    setIsLoading(false);
+                }
+            });
+        }
+    }, [id, user]);
+
     if (!isAuth) {
         return <Navigate to="/" />;
     }
-
     const handleTagChange = (selectedOptions) => {
         setSelectedTags(selectedOptions);
     };
-    const handleImage = async(e) => {
+    const handleImage = async (e) => {
         try {
             const formatData = new FormData();
             const file = e.target.files[0];
             formatData.append("image", file);
             const { data } = await instance.post("/upload", formatData);
-            // const base64String = btoa(String.fromCharCode(...new Uint8Array(data.image.data.data)));
-            // const imgUrl = `data:${data.image.contentType};base64,${base64String}`;
-            console.log(data);
             setImageUrl(data.data.image);
         } catch (err) {
             console.warn(err);
             alert("failed to load img to cloud");
-        }        
-    }
-   
+        }
+    };
 
     const handlePublish = async () => {
         try {
-            const tags = selectedTags.map(el => el.id); 
+            const tags = selectedTags.map((el) => el.id);
             const articleData = {
                 title,
                 text: value,
                 tags,
                 imageUrl,
-            }
+            };
             console.log(selectedTags);
             console.log(articleData);
-            const {data} = await instance.post('/posts', articleData);
-            navigate(`/posts/${data._id}`); 
-            console.log(data);
-            
+
+            const { data } = isEditing
+                ? await instance.patch(`/posts/${id}`, articleData)
+                : await instance.post("/posts", articleData);
+            navigate(`/posts/${data._id}`);
         } catch (err) {
             console.warn(err);
         }
@@ -64,7 +95,9 @@ function AddPost() {
 
     const bgColor = style.getPropertyValue("--bg");
     const accentColor = style.getPropertyValue("--accent");
-    const tagsSelect = tags.items.map(tag => {return {value: tag.name,label:tag.name,id:tag._id}});
+    const tagsSelect = tags.items.map((tag) => {
+        return { value: tag.name, label: tag.name, id: tag._id };
+    });
     const colourStyles = {
         control: (styles) => ({ ...styles, backgroundColor: "transparent" }),
 
@@ -89,9 +122,9 @@ function AddPost() {
             },
         }),
     };
-
     return (
-        <div className={s.addPost}>
+        (isEditing && loading) ? <Preloader /> : <div className={s.addPost}>
+            {console.log(isEditing,loading)}
             <div className={s.container}>
                 <div className={s.addPost__inner}>
                     {!imageUrl ? (
@@ -123,10 +156,7 @@ function AddPost() {
                     />
                     {imageUrl && (
                         <div className={s.preview}>
-                            <img
-                                src={`${imageUrl}`}
-                                alt=""
-                            />
+                            <img src={`${imageUrl}`} alt="" />
                         </div>
                     )}
 
@@ -152,7 +182,7 @@ function AddPost() {
                         onChange={setValue}
                     />
                     <button className="btn btn_m" onClick={handlePublish}>
-                        Public
+                        {isEditing ? "Save" : "Public"}
                     </button>
                 </div>
             </div>

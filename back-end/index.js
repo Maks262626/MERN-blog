@@ -57,7 +57,7 @@ app.post('/auth/register',registerValidator,handleValidationErrors, UserControll
 app.post('/auth/login',loginValidator,handleValidationErrors, UserController.login);
 app.get('/auth/me', checkAuth, UserController.getMe);
 
-app.get("/last-users", UserController.getLastUsers);
+app.get("/last-users/:id", UserController.getLastUsers);
 
 app.put("/user/image-update",checkAuth,handleValidationErrors, UserController.updateImage);
 
@@ -69,7 +69,7 @@ app.get('/my-posts',checkAuth, PostController.getPostByUser);
 app.post('/posts',checkAuth,postCreateValidator,handleValidationErrors, PostController.create);
 app.delete("/posts/:id", checkAuth, PostController.remove);
 app.put('/posts/:id', checkAuth,PostController.addLike);
-// app.patch("/posts/:id", checkAuth, postCreateValidator, handleValidationErrors, PostController.update);
+app.patch("/posts/:id", checkAuth, postCreateValidator, handleValidationErrors, PostController.update);
 
 
 app.get("/tags", TagController.getAll);

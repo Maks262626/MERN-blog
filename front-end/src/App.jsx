@@ -31,6 +31,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/addpost" element={<AddPost />} />
+                    <Route path="/addpost/:id" element={<AddPost />} />
                     <Route path="/posts/:id" element={<FullPost />} />
                     <Route path="/my-posts" element={<MyPosts />} />
                     <Route path="/tags/:id" element={<PostsByTag />} />

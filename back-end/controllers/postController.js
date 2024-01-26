@@ -124,7 +124,7 @@ export const remove = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const postId = req.params.id;
-        PostModel.findOneAndUpdate({
+        const updatedPost = await PostModel.findOneAndUpdate({
             _id: postId
         }, {
             title: req.body.title,
@@ -133,7 +133,12 @@ export const update = async (req, res) => {
             tags: req.body.tags,
             user: req.userId,
         });
-        res.json({success: true})
+        if (!updatedPost) {
+            return res.status(404).json({
+                message: "article not found",
+            });
+        }
+        res.json(updatedPost);
     } catch (err) {
         console.log(err);
         res.status(500).json({

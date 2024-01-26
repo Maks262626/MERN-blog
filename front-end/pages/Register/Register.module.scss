@@ -22,6 +22,11 @@
     font-weight: 700;
     margin-bottom: 20px;
 }
+.link{
+    &:hover{
+        text-decoration-line:underline;
+    }
+}
 .error{
     color: red;
 }

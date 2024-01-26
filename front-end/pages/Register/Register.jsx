@@ -114,7 +114,7 @@ function Register() {
                         <button className="btn" type="submit">
                             Register
                         </button>
-                        <Link className="btn btn_secondary" to="/login">
+                        <Link className={s.link} to="/login">
                             Have acc? Sign in
                         </Link>
                     </Form>
