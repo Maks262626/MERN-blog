@@ -1,14 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAvatar, userSelector } from "../../redux/auth";
 import s from './User.module.scss';
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import instance from "../../axios";
+import Preloader from "../../components/Preloader/Preloader";
 
 function User() {
     const dispatch = useDispatch();
     const user = useSelector(userSelector);
     const inputRef = useRef(null);
-
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        if (user) {
+            setLoading(false);
+        }    
+    },[user])
     const handleImage = async (e) => {
         try {
             const formatData = new FormData();
@@ -24,6 +30,9 @@ function User() {
 
 
     const avatarUrl = user?.avatarUrl ? `${user.avatarUrl}` : "https://placehold.co/50x50";
+    if (loading) {
+        return <Preloader/>
+    }
     return (
         <div className={s.user}>
             <div className={s.container}>

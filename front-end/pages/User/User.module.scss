@@ -22,7 +22,8 @@
 .avatar{
     position: relative;
     height: 100px;
-    width: 100px;
+    max-width: 100px;
+    min-width: 100px;
     border-radius: 50%;
     border: 2px solid transparent;
     overflow: hidden;
