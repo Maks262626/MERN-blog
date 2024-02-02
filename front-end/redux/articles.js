@@ -12,6 +12,9 @@ export const fetchLike = createAsyncThunk("/posts/fetchLike", async (id) => {
     const { data } = await instance.put(`/posts/${id}`);
     return data;
 });
+// export const fetchPostComment = createAsyncThunk("/comment/fetchPostComment", async () => {
+//     const 
+// }); 
 export const fetchDeleteArticle = createAsyncThunk(
     "/posts/fetchDeleteArticle",
     async (id) => {

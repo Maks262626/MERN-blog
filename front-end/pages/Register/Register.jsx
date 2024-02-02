@@ -47,16 +47,15 @@ function Register() {
             })}
             onSubmit={async (values, { setSubmitting }) => {
 
-                if (imageFile.name) {
+                if (imageFile) {
                     const formatData = new FormData();
                     formatData.append("image", imageFile);
                     await instance.post("/upload", formatData);
                 }
                 
-                const registerData = { ...values, avatarUrl: imageUrl }; 
+                const registerData = { ...values, avatarUrl }; 
                 
                 const data = await dispatch(fetchRegister(registerData));
-                console.log(data);
                 if (!data.payload) {
                     return alert("can't register");
                 }

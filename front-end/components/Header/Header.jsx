@@ -91,7 +91,6 @@ function Header() {
 
     const handleClick = (e) => {
         e.stopPropagation()
-        console.log(e,isBurger, !e.target.className.baseVal?.includes("iconBtn"));
         if (isBurger && !e.target.className.baseVal?.includes('iconBtn') && !e.target.className?.includes(`${s.content}`)) {
             setIsBurger(false);
         }

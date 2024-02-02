@@ -15,7 +15,6 @@ function Likes() {
             setIsLoading(false);
         }
     },[articles,user]);
-    console.log(data);
     return (
         <div className="container" style={{ display: 'flex', flexDirection:'column',gap: '20px'}}>
             {isLoading ? (

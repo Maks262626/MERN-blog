@@ -5,10 +5,7 @@ function Article({ article }) {
         <Link className={s.article} to={`/posts/${article._id}`}>
             {article.imageUrl && (
                 <div className={s.left}>
-                    <img
-                        src={`${article.imageUrl}`}
-                        alt=""
-                    />
+                    <img src={`${article.imageUrl}`} alt="" />
                 </div>
             )}
 
@@ -39,10 +36,7 @@ function Article({ article }) {
                 />
                 <div className={s.user}>
                     {article.user.avatarUrl ? (
-                        <img
-                            src={article.user.avatarUrl}
-                            alt=""
-                        />
+                        <img src={article.user.avatarUrl} alt="" />
                     ) : (
                         <img src={"https://placehold.co/50x50"} alt="" />
                     )}

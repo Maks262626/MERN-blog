@@ -1,0 +1,94 @@
+.comment{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    &__submit{
+        margin-bottom: 10px;
+    }
+    &__top{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid var(--text-primary);
+    
+        input {
+            width: 100%;
+        }
+    
+        input::placeholder {
+            color: var(--title);
+            opacity: .5;
+        }
+    
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    }
+    &__bottom{
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+}
+.avatar{
+    padding: 5px;
+    img{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+}
+.content{
+    position: relative;
+    display: flex;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    &.active{
+        border-radius: 20px;
+        box-shadow: 0px 0px 9px 0px rgba(#bc0a99, .8);
+    }
+}
+.info{}
+.name{
+    color: var(--title);
+}
+.text{}
+.actions{
+    display: flex;
+    gap: 10px;
+}
+.action{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.replies{
+    padding-left: 24px;
+    &__count{
+        display: inline-block;
+        color: var(--accent);
+        margin-bottom: 10px;
+    }
+    
+}
+.replyWrapper{
+    display: flex;
+    flex-direction: column;
+}
+.commentReplyWrapper{
+    padding-left: 40px;
+}
+.liked{
+    color:red;
+}
+.delete{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}

@@ -6,12 +6,18 @@ import multer from 'multer';
 import cors from 'cors';
 import checkAuth from './middleware/checkAuth.js';
 import handleValidationErrors from './middleware/handleValidationErrors.js';
-import { registerValidator, loginValidator, postCreateValidator } from './validations/index.js'; 
+import {
+    registerValidator,
+    loginValidator,
+    postCreateValidator,
+    commentCreateValidator,
+} from "./validations/index.js"; 
 import {
     UserController,
     PostController,
     TagController,
     ImageController,
+    CommentController,
 } from "./controllers/index.js";
 
 mongoose
@@ -53,15 +59,16 @@ app.options("*", cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
+app.post("/upload", upload.single("image"), ImageController.upload);
+
+app.get("/tags", TagController.getAll);
+app.get("/tags/:id", TagController.getByTag);
+
 app.post('/auth/register',registerValidator,handleValidationErrors, UserController.register);
 app.post('/auth/login',loginValidator,handleValidationErrors, UserController.login);
 app.get('/auth/me', checkAuth, UserController.getMe);
-
 app.get("/last-users/:id", UserController.getLastUsers);
-
 app.put("/user/image-update",checkAuth,handleValidationErrors, UserController.updateImage);
-
-app.post("/upload", upload.single("image"), ImageController.upload);
 
 app.get('/posts', PostController.getAll);
 app.get('/posts/:id', PostController.getOne);
@@ -71,11 +78,9 @@ app.delete("/posts/:id", checkAuth, PostController.remove);
 app.put('/posts/:id', checkAuth,PostController.addLike);
 app.patch("/posts/:id", checkAuth, postCreateValidator, handleValidationErrors, PostController.update);
 
-
-app.get("/tags", TagController.getAll);
-app.get("/tags/:id", TagController.getByTag);
-
-
+app.post("/comment", checkAuth,commentCreateValidator,handleValidationErrors,CommentController.create);
+app.put("/comment/:id", checkAuth, CommentController.addLike);
+app.delete("/comment/:id", checkAuth, CommentController.remove);
 
 app.listen(PORT, err => {
     if (err) {

@@ -1,5 +1,5 @@
-import Post from '../models/Post.js';
 import PostModel from '../models/Post.js';
+import CommentModel from '../models/Comment.js';
 
 export const create = async (req, res) => {
     try {
@@ -55,7 +55,13 @@ export const getOne = async (req, res) => {
             { _id: postId },
             { $inc: { viewsCount: 1 } },
             { returnDocument: "after" }
-        ).populate({ path: "user", select: ["fullname", "avatarUrl"] }).populate({path: "tags"});
+        )
+            .populate({ path: "user", select: ["fullname", "avatarUrl"] })
+            .populate({ path: "tags" })
+            .populate({
+                path: "comments",
+                populate: [{path:"replies",populate:{path:"user"}},{path:"user"}],
+            });
 
         if (!updatedPost) {
             return res.status(404).json({
@@ -112,7 +118,8 @@ export const remove = async (req, res) => {
                 message: "article not found",
             });
         }
-         res.json({ success: true });
+        await CommentModel.deleteMany({ post: postId });
+        res.json({ success: true });
     } catch (err) {
         console.log(err);
         res.status(500).json({

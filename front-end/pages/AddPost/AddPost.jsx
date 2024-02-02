@@ -35,16 +35,13 @@ function AddPost() {
         }
     }, [id, isEditing]);
     useEffect(() => {
-        if (user) {
-            console.log(user);
+        if (user && isEditing) {
             setIsLoading(true);
             instance.get(`/posts/${id}`).then((data) => {
                 const articleUserId = data.data.user._id;
                 if (articleUserId !== user._id) {
-                    console.log(1);
                     navigate("/");
                 } else {
-                    console.log(2);
                     setIsLoading(false);
                 }
             });
@@ -79,9 +76,6 @@ function AddPost() {
                 tags,
                 imageUrl,
             };
-            console.log(selectedTags);
-            console.log(articleData);
-
             const { data } = isEditing
                 ? await instance.patch(`/posts/${id}`, articleData)
                 : await instance.post("/posts", articleData);
@@ -124,7 +118,6 @@ function AddPost() {
     };
     return (
         (isEditing && loading) ? <Preloader /> : <div className={s.addPost}>
-            {console.log(isEditing,loading)}
             <div className={s.container}>
                 <div className={s.addPost__inner}>
                     {!imageUrl ? (

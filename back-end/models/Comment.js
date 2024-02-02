@@ -1,31 +1,17 @@
 import mongoose from "mongoose";
 
-const PostSchema = new mongoose.Schema(
+const CommentSchema = new mongoose.Schema(
     {
-        title: {
-            type: String,
-            required: true,
-        },
         text: {
             type: String,
             required: true,
         },
-        tags: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Tag",
-            default: [],
-            required: true
-        }],
-        comments: [{
+        replies: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Comment",
             default: [],
-            required:true
+            required: true
         }],
-        viewsCount: {
-            type: Number,
-            default: 0,
-        },
         likes: {
             type: Number,
             default: 0
@@ -40,11 +26,15 @@ const PostSchema = new mongoose.Schema(
             ref: "User",
             required: true,
         },
-        imageUrl: String,
+        post: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Post",
+            required: true,
+        }
     },
     {
         timestamps: true,
     }
 );
 
-export default mongoose.model("Post", PostSchema);
+export default mongoose.model("Comment", CommentSchema);

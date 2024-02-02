@@ -113,7 +113,6 @@ export const updateImage = async (req, res) => {
     try {
         const userId = req.userId;
         const imageUrl = req.body.url;
-        console.log(imageUrl);
         if (!imageUrl) {
             return res.status(400).json({message: "imageUrl required"});
         }
@@ -123,7 +122,6 @@ export const updateImage = async (req, res) => {
         }
         doc.avatarUrl = imageUrl;
         await doc.save();
-        console.log(doc);
         res.json(doc);
     } catch (err) {
         console.log(err);

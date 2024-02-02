@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchLike } from '../../redux/articles';
 import { userSelector } from '../../redux/auth';
 import Preloader from "../../components/Preloader/Preloader";
+import Comments from '../../components/Comments/Comments';
 
 function FullPost() {
     const dispatch = useDispatch();
@@ -17,7 +18,6 @@ function FullPost() {
     const [isLiked, setIsLiked] = useState(false); 
     const [isMounting, setIsMounting] = useState(true);
     const { id } = useParams();
-    
     useEffect(() => {
         if (user && data && isMounting) {
             setIsLiked(data.likedBy.includes(user._id));
@@ -77,7 +77,7 @@ function FullPost() {
                             <FaRegCommentDots
                                 className={`iconBtn iconBtn_m ${s.bookmark}`}
                             />
-                            <span>0</span>
+                            <span>{data.comments.length}</span>
                         </div>
                         <div className={s.action}>
                             <MdOutlineRemoveRedEye
@@ -113,6 +113,7 @@ function FullPost() {
                         className={s.content}
                         dangerouslySetInnerHTML={{ __html: data.text }}
                     />
+                    <Comments comments={data.comments} user={user} postId={data._id} />
                 </div>
             </div>
         </div>
