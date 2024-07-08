@@ -16,8 +16,9 @@ function Comment({
     const [value, setValue] = useState("");
     const [isReplying, setIsReplying] = useState(false);
     const [isLiked, setIsLiked] = useState(
-        data.likedBy.includes(data.user._id)
+        data.likedBy.includes(user._id)
     );
+    console.log(isLiked,user._id,data);
     const isCommentByCurrentUser =
         user && data.user._id.toString() === user._id.toString();
     const handleCancel = () => {
