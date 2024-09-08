@@ -1,4 +1,3 @@
-//ECKPNS4SmMgctP7m
 import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config.js'
@@ -30,7 +29,6 @@ mongoose
     });
 
 
-
 const app = express();
 const PORT = process.env.PORT || 4000;
 const storage = multer.memoryStorage();
@@ -44,7 +42,6 @@ const storage = multer.memoryStorage();
 //     }
 // });
 const upload = multer({ storage });
-
 
 // app.use(cors());
 app.use(
