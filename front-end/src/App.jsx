@@ -20,8 +20,8 @@ function App() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchAuthMe());
-        dispatch(fetchArticles())
-    }, []);
+        dispatch(fetchArticles());
+    }, [dispatch]);
     return (
         <>
             <Header />
